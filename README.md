@@ -8,9 +8,9 @@ The planned app starts with local habit tracking and grows into a lightweight co
 
 The current Android app skeleton starts with one local quantitative habit:
 
-- Seeded habit: Drink Water
-- Daily goal: 2000 ml
-- Manual logs: +250 ml or +500 ml
+- Seeded habits: Drink Water, Exercise, and Sleep
+- Daily goals: 2000 ml water, 30 min exercise, 8 hr sleep
+- Manual logs: quick amount buttons per habit
 - Local persistence: SQLite through `SQLiteOpenHelper`
 - UI: Java Activity with RecyclerView cards
 

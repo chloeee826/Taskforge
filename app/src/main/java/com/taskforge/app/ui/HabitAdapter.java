@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -57,36 +58,60 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         private final TextView habitNameText;
         private final TextView progressText;
         private final TextView statusText;
+        private final TextView goalText;
+        private final ImageView habitIconImage;
         private final ProgressBar progressBar;
-        private final Button add250Button;
-        private final Button add500Button;
+        private final Button smallLogButton;
+        private final Button largeLogButton;
 
         HabitViewHolder(@NonNull View itemView) {
             super(itemView);
+            habitIconImage = itemView.findViewById(R.id.habitIconImage);
             habitNameText = itemView.findViewById(R.id.habitNameText);
             progressText = itemView.findViewById(R.id.progressText);
             statusText = itemView.findViewById(R.id.statusText);
+            goalText = itemView.findViewById(R.id.goalText);
             progressBar = itemView.findViewById(R.id.progressBar);
-            add250Button = itemView.findViewById(R.id.add250Button);
-            add500Button = itemView.findViewById(R.id.add500Button);
+            smallLogButton = itemView.findViewById(R.id.smallLogButton);
+            largeLogButton = itemView.findViewById(R.id.largeLogButton);
         }
 
         void bind(Habit habit, OnLogAmountClickListener listener) {
+            habitIconImage.setImageResource(iconForHabit(habit));
             habitNameText.setText(habit.getName());
             progressText.setText(String.format(
                     Locale.US,
-                    "%d / %d %s today",
+                    "%d / %d %s",
                     habit.getTodayAmount(),
                     habit.getTargetAmount(),
                     habit.getUnit()
             ));
+            goalText.setText(String.format(Locale.US, "Daily goal: %d %s", habit.getTargetAmount(), habit.getUnit()));
             progressBar.setProgress(habit.getProgressPercent());
             statusText.setText(habit.isCompleteToday()
-                    ? "Goal reached for today"
-                    : "Keep going, you are building the streak");
+                    ? "Completed today"
+                    : "In progress");
 
-            add250Button.setOnClickListener(v -> listener.onLogAmount(habit, 250));
-            add500Button.setOnClickListener(v -> listener.onLogAmount(habit, 500));
+            smallLogButton.setText(buttonLabel(habit, habit.getSmallLogAmount()));
+            largeLogButton.setText(buttonLabel(habit, habit.getLargeLogAmount()));
+            smallLogButton.setOnClickListener(v -> listener.onLogAmount(habit, habit.getSmallLogAmount()));
+            largeLogButton.setOnClickListener(v -> listener.onLogAmount(habit, habit.getLargeLogAmount()));
+        }
+
+        private int iconForHabit(Habit habit) {
+            switch (habit.getIconName()) {
+                case "exercise":
+                    return R.drawable.ic_exercise;
+                case "sleep":
+                    return R.drawable.ic_sleep;
+                case "water":
+                default:
+                    return R.drawable.ic_water_bottle;
+            }
+        }
+
+        private String buttonLabel(Habit habit, int amount) {
+            return String.format(Locale.US, "+%d %s", amount, habit.getUnit());
         }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Taskforge</string>
+    <string name="habit_icon">Habit icon</string>
 </resources>

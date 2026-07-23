@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class TaskforgeDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "taskforge.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public TaskforgeDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,8 +28,11 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "name TEXT NOT NULL,"
                 + "tracking_type TEXT NOT NULL,"
+                + "icon_name TEXT NOT NULL,"
                 + "target_amount INTEGER NOT NULL,"
                 + "unit TEXT NOT NULL,"
+                + "small_log_amount INTEGER NOT NULL,"
+                + "large_log_amount INTEGER NOT NULL,"
                 + "created_at INTEGER NOT NULL"
                 + ")");
 
@@ -42,14 +45,17 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(habit_id) REFERENCES habits(id)"
                 + ")");
 
-        seedDrinkWaterHabit(db);
+        seedStarterHabits(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS habit_entries");
-        db.execSQL("DROP TABLE IF EXISTS habits");
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE habits ADD COLUMN icon_name TEXT NOT NULL DEFAULT 'water'");
+            db.execSQL("ALTER TABLE habits ADD COLUMN small_log_amount INTEGER NOT NULL DEFAULT 250");
+            db.execSQL("ALTER TABLE habits ADD COLUMN large_log_amount INTEGER NOT NULL DEFAULT 500");
+        }
+        seedStarterHabits(db);
     }
 
     public List<Habit> getTodayHabits() {
@@ -57,11 +63,13 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
         List<Habit> habits = new ArrayList<>();
         String today = todayKey();
 
-        String sql = "SELECT h.id, h.name, h.unit, h.target_amount, "
+        String sql = "SELECT h.id, h.name, h.icon_name, h.unit, h.target_amount, "
+                + "h.small_log_amount, h.large_log_amount, "
                 + "COALESCE(SUM(e.amount), 0) AS today_amount "
                 + "FROM habits h "
                 + "LEFT JOIN habit_entries e ON h.id = e.habit_id AND e.entry_date = ? "
-                + "GROUP BY h.id, h.name, h.unit, h.target_amount "
+                + "GROUP BY h.id, h.name, h.icon_name, h.unit, h.target_amount, "
+                + "h.small_log_amount, h.large_log_amount "
                 + "ORDER BY h.created_at ASC";
 
         try (Cursor cursor = db.rawQuery(sql, new String[]{today})) {
@@ -70,8 +78,11 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
                         cursor.getLong(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getInt(3),
-                        cursor.getInt(4)
+                        cursor.getString(3),
+                        cursor.getInt(4),
+                        cursor.getInt(7),
+                        cursor.getInt(5),
+                        cursor.getInt(6)
                 ));
             }
         }
@@ -89,12 +100,36 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
         db.insert("habit_entries", null, values);
     }
 
-    private void seedDrinkWaterHabit(SQLiteDatabase db) {
+    private void seedStarterHabits(SQLiteDatabase db) {
+        seedHabitIfMissing(db, "Drink Water", "quantity", "water", 2000, "ml", 250, 500);
+        seedHabitIfMissing(db, "Exercise", "duration", "exercise", 30, "min", 10, 20);
+        seedHabitIfMissing(db, "Sleep", "duration", "sleep", 8, "hr", 1, 2);
+    }
+
+    private void seedHabitIfMissing(
+            SQLiteDatabase db,
+            String name,
+            String trackingType,
+            String iconName,
+            int targetAmount,
+            String unit,
+            int smallLogAmount,
+            int largeLogAmount
+    ) {
+        try (Cursor cursor = db.rawQuery("SELECT id FROM habits WHERE name = ? LIMIT 1", new String[]{name})) {
+            if (cursor.moveToFirst()) {
+                return;
+            }
+        }
+
         ContentValues values = new ContentValues();
-        values.put("name", "Drink Water");
-        values.put("tracking_type", "quantity");
-        values.put("target_amount", 2000);
-        values.put("unit", "ml");
+        values.put("name", name);
+        values.put("tracking_type", trackingType);
+        values.put("icon_name", iconName);
+        values.put("target_amount", targetAmount);
+        values.put("unit", unit);
+        values.put("small_log_amount", smallLogAmount);
+        values.put("large_log_amount", largeLogAmount);
         values.put("created_at", System.currentTimeMillis());
         db.insert("habits", null, values);
     }

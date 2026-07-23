@@ -3,40 +3,78 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="14dp"
-    android:background="@color/taskforge_card"
-    android:elevation="2dp"
+    android:background="@drawable/bg_habit_card"
+    android:elevation="3dp"
     android:orientation="vertical"
     android:padding="18dp">
 
-    <TextView
-        android:id="@+id/habitNameText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/taskforge_text"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:background="@drawable/bg_icon_circle">
+
+            <ImageView
+                android:id="@+id/habitIconImage"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/habit_icon"
+                android:tint="@color/taskforge_primary" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/habitNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/taskforge_text"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/goalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/taskforge_muted"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/progressText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/taskforge_muted"
-        android:textSize="15sp" />
+        android:layout_marginTop="18dp"
+        android:textColor="@color/taskforge_text"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="10dp"
         android:max="100" />
 
     <TextView
         android:id="@+id/statusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/taskforge_primary_dark"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -48,19 +86,19 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/add250Button"
+            android:id="@+id/smallLogButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="+250 ml" />
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/add500Button"
+            android:id="@+id/largeLogButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="+500 ml" />
+            android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>
