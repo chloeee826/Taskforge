@@ -109,4 +109,15 @@
             android:textColor="@color/taskforge_text"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/undoLogButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_undo_button"
+        android:text="Undo last"
+        android:textAllCaps="false"
+        android:textColor="@color/taskforge_text"
+        android:textStyle="bold" />
 </LinearLayout>

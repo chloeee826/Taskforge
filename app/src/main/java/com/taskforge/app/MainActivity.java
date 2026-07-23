@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         dbHelper = new TaskforgeDbHelper(this);
-        habitAdapter = new HabitAdapter(this::logAmount);
+        habitAdapter = new HabitAdapter(this::logAmount, this::undoLastLog);
 
         RecyclerView habitRecyclerView = findViewById(R.id.habitRecyclerView);
         habitRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,5 +52,15 @@ public class MainActivity extends Activity {
         dbHelper.addHabitEntry(habit.getId(), amount);
         loadHabits();
         Toast.makeText(this, "Added " + amount + " " + habit.getUnit(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void undoLastLog(Habit habit) {
+        boolean undone = dbHelper.deleteLatestTodayEntry(habit.getId());
+        loadHabits();
+        Toast.makeText(
+                this,
+                undone ? "Last " + habit.getName() + " log removed" : "Nothing to undo today",
+                Toast.LENGTH_SHORT
+        ).show();
     }
 }

@@ -23,11 +23,17 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         void onLogAmount(Habit habit, int amount);
     }
 
+    public interface OnUndoClickListener {
+        void onUndoLastLog(Habit habit);
+    }
+
     private final OnLogAmountClickListener listener;
+    private final OnUndoClickListener undoListener;
     private final List<Habit> habits = new ArrayList<>();
 
-    public HabitAdapter(OnLogAmountClickListener listener) {
+    public HabitAdapter(OnLogAmountClickListener listener, OnUndoClickListener undoListener) {
         this.listener = listener;
+        this.undoListener = undoListener;
     }
 
     public void submitList(List<Habit> nextHabits) {
@@ -46,7 +52,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     @Override
     public void onBindViewHolder(@NonNull HabitViewHolder holder, int position) {
         Habit habit = habits.get(position);
-        holder.bind(habit, listener);
+        holder.bind(habit, listener, undoListener);
     }
 
     @Override
@@ -63,6 +69,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         private final ProgressBar progressBar;
         private final Button smallLogButton;
         private final Button largeLogButton;
+        private final Button undoLogButton;
 
         HabitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,9 +81,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             progressBar = itemView.findViewById(R.id.progressBar);
             smallLogButton = itemView.findViewById(R.id.smallLogButton);
             largeLogButton = itemView.findViewById(R.id.largeLogButton);
+            undoLogButton = itemView.findViewById(R.id.undoLogButton);
         }
 
-        void bind(Habit habit, OnLogAmountClickListener listener) {
+        void bind(Habit habit, OnLogAmountClickListener listener, OnUndoClickListener undoListener) {
             habitIconImage.setImageResource(iconForHabit(habit));
             habitNameText.setText(habit.getName());
             progressText.setText(String.format(
@@ -96,6 +104,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             largeLogButton.setText(buttonLabel(habit, habit.getLargeLogAmount()));
             smallLogButton.setOnClickListener(v -> listener.onLogAmount(habit, habit.getSmallLogAmount()));
             largeLogButton.setOnClickListener(v -> listener.onLogAmount(habit, habit.getLargeLogAmount()));
+
+            undoLogButton.setEnabled(habit.getTodayAmount() > 0);
+            undoLogButton.setAlpha(habit.getTodayAmount() > 0 ? 1f : 0.45f);
+            undoLogButton.setOnClickListener(v -> undoListener.onUndoLastLog(habit));
         }
 
         private int iconForHabit(Habit habit) {

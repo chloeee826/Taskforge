@@ -100,6 +100,23 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
         db.insert("habit_entries", null, values);
     }
 
+    public boolean deleteLatestTodayEntry(long habitId) {
+        SQLiteDatabase db = getWritableDatabase();
+        String latestEntrySql = "SELECT id FROM habit_entries "
+                + "WHERE habit_id = ? AND entry_date = ? "
+                + "ORDER BY created_at DESC, id DESC LIMIT 1";
+
+        try (Cursor cursor = db.rawQuery(latestEntrySql, new String[]{String.valueOf(habitId), todayKey()})) {
+            if (!cursor.moveToFirst()) {
+                return false;
+            }
+
+            long entryId = cursor.getLong(0);
+            int deletedRows = db.delete("habit_entries", "id = ?", new String[]{String.valueOf(entryId)});
+            return deletedRows > 0;
+        }
+    }
+
     public int getTargetAmountByName(String name) {
         SQLiteDatabase db = getReadableDatabase();
         try (Cursor cursor = db.rawQuery(

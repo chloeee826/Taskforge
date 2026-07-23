@@ -11,6 +11,7 @@ The current Android app skeleton starts with one local quantitative habit:
 - Seeded habits: Drink Water, Exercise, and Sleep
 - Daily goals: 2000 ml water, 30 min exercise, 8 hr sleep
 - Manual logs: quick amount buttons per habit
+- Mistake recovery: undo the latest log for a habit today
 - Goal setup: edit daily targets from the app
 - Local persistence: SQLite through `SQLiteOpenHelper`
 - UI: Java Activities with RecyclerView cards and pastel color theme
