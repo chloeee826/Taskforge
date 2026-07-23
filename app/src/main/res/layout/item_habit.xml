@@ -93,7 +93,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:textAllCaps="false" />
+            android:background="@drawable/bg_log_button"
+            android:textAllCaps="false"
+            android:textColor="@color/taskforge_text"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/largeLogButton"
@@ -101,6 +104,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:textAllCaps="false" />
+            android:background="@drawable/bg_log_button"
+            android:textAllCaps="false"
+            android:textColor="@color/taskforge_text"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

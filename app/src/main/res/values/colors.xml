@@ -7,6 +7,7 @@
     <color name="taskforge_hot_pink">#FFAFCC</color>
     <color name="taskforge_blue">#BDE0FE</color>
     <color name="taskforge_deep_blue">#A2D2FF</color>
+    <color name="taskforge_log_button">#81C3D7</color>
     <color name="taskforge_text">#1F2430</color>
     <color name="taskforge_muted">#6E6178</color>
 </resources>
