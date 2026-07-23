@@ -68,7 +68,9 @@
         android:layout_width="match_parent"
         android:layout_height="12dp"
         android:layout_marginTop="10dp"
-        android:max="100" />
+        android:max="100"
+        android:progressTint="@color/taskforge_hot_pink"
+        android:progressBackgroundTint="@color/taskforge_blue" />
 
     <TextView
         android:id="@+id/statusText"

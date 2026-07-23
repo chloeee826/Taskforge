@@ -28,11 +28,22 @@
         android:textColor="@color/taskforge_muted"
         android:textSize="15sp" />
 
+    <Button
+        android:id="@+id/editGoalsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bg_primary_button"
+        android:text="Choose Daily Goals"
+        android:textAllCaps="false"
+        android:textColor="@color/taskforge_text"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/habitRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="20dp"

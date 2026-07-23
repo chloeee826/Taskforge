@@ -100,6 +100,26 @@ public class TaskforgeDbHelper extends SQLiteOpenHelper {
         db.insert("habit_entries", null, values);
     }
 
+    public int getTargetAmountByName(String name) {
+        SQLiteDatabase db = getReadableDatabase();
+        try (Cursor cursor = db.rawQuery(
+                "SELECT target_amount FROM habits WHERE name = ? LIMIT 1",
+                new String[]{name}
+        )) {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+        }
+        return 0;
+    }
+
+    public void updateTargetAmountByName(String name, int targetAmount) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("target_amount", targetAmount);
+        db.update("habits", values, "name = ?", new String[]{name});
+    }
+
     private void seedStarterHabits(SQLiteDatabase db) {
         seedHabitIfMissing(db, "Drink Water", "quantity", "water", 2000, "ml", 250, 500);
         seedHabitIfMissing(db, "Exercise", "duration", "exercise", 30, "min", 10, 20);

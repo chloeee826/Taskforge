@@ -1,7 +1,9 @@
 package com.taskforge.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +29,19 @@ public class MainActivity extends Activity {
         habitRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         habitRecyclerView.setAdapter(habitAdapter);
 
+        Button editGoalsButton = findViewById(R.id.editGoalsButton);
+        editGoalsButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, GoalSettingsActivity.class)));
+
         loadHabits();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (habitAdapter != null) {
+            loadHabits();
+        }
     }
 
     private void loadHabits() {

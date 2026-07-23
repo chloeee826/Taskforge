@@ -1,8 +1,12 @@
 <resources>
-    <color name="taskforge_background">#F7F8FC</color>
+    <color name="taskforge_background">#FFF7FB</color>
     <color name="taskforge_card">#FFFFFF</color>
-    <color name="taskforge_primary">#4361EE</color>
-    <color name="taskforge_primary_dark">#2F45B5</color>
+    <color name="taskforge_primary">#CDB4DB</color>
+    <color name="taskforge_primary_dark">#8E6AA5</color>
+    <color name="taskforge_pink">#FFC8DD</color>
+    <color name="taskforge_hot_pink">#FFAFCC</color>
+    <color name="taskforge_blue">#BDE0FE</color>
+    <color name="taskforge_deep_blue">#A2D2FF</color>
     <color name="taskforge_text">#1F2430</color>
-    <color name="taskforge_muted">#667085</color>
+    <color name="taskforge_muted">#6E6178</color>
 </resources>
