@@ -3,3 +3,8 @@
 *.swp
 *.swo
 
+.gradle/
+build/
+app/build/
+local.properties
+*.iml

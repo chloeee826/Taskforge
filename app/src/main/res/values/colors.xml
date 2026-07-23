@@ -1,0 +1,8 @@
+<resources>
+    <color name="taskforge_background">#F7F8FC</color>
+    <color name="taskforge_card">#FFFFFF</color>
+    <color name="taskforge_primary">#4361EE</color>
+    <color name="taskforge_primary_dark">#2F45B5</color>
+    <color name="taskforge_text">#1F2430</color>
+    <color name="taskforge_muted">#667085</color>
+</resources>
